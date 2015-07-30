@@ -22,15 +22,15 @@ echo <<<_END
 _END;
 
 if(isset($_POST['name']))
-$name = $_POST['name'];
+    $name = $_POST['name'];
 else $name = "-";
 
 if(isset($_POST['surname']))
-$surname = $_POST['surname'];
+    $surname = $_POST['surname'];
 else $surname = "-";
 
 if(isset($_POST['sex']))
-$sex = $_POST['sex'];
+    $sex = $_POST['sex'];
 else $sex = "-";
 
 if(isset($_POST['age']))
