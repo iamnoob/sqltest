@@ -1,8 +1,4 @@
 <?php
-$user = 'user';
-$pass = 'pass';
-$dbh = new PDO('mysql:host=localhost;dbname=people', $user, $pass);
-
 echo <<<_END
 <!DOCTYPE html>
 <html>
@@ -43,7 +39,9 @@ else $age = "-";
 
 if(isset($_POST['pidr']))
     $pidr = $_POST['pidr'];
-else $pidr = "-";
+else {
+    $pidr = "-";
+}
 
 $a = new \DateTime();
 $time = $a->format('d.m.Y H:i:s');
@@ -51,5 +49,18 @@ $time = $a->format('d.m.Y H:i:s');
 echo "Ваше имя: $name<br>Ваша фамилия: $surname<br>Ваш пол: $sex<br>Ваш возраст: $age<br>Статус пидара: $pidr<br>";
 echo "Текущее время - $time";
 
-INSERT INTO people(name, surname, sex, pidr, age, time)
-VALUES($name, $surname, $sex, $pidr, $age, $time);
+$user = 'user';
+$pass = 'pass';
+$dbh = new PDO('mysql:host=localhost;dbname=people', $user, $pass);
+$st = $dbh->prepare('INSERT INTO people(name, surname, sex, pidr, age, time)
+VALUES(:name, :surname, :sex, :pidr, :age, :time)');
+$st->bindValue(':name',$name);
+$st->bindValue(':surname',$surname);
+$st->bindValue(':sex',$sex);
+$st->bindValue(':pidr',$pidr);
+$st->bindValue(':age',$age);
+$st->bindValue(':time',$time);
+$st->execute();
+$st->fetchAll();
+$dbh = null;
+?>
